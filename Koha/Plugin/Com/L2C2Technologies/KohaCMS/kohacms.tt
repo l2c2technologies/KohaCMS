@@ -1,0 +1,128 @@
+[% INCLUDE 'doc-head-open.inc' %]
+<title>Koha &rsaquo; Koha CMS &rsaquo; Pages</title>
+[% INCLUDE 'doc-head-close.inc' %]
+[% IF ( cms_page_count ) %]
+    <link rel="stylesheet" type="text/css" href="[% themelang %]/css/datatables.css" />
+    [% INCLUDE 'datatables.inc' %]
+    <script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+        $("#cmspagetable").dataTable($.extend(true, {}, dataTablesDefaults, {
+            "sDom": '<"top pager"ilf>t<"pager"p>',
+            "aoColumnDefs": [
+                { "aTargets": [ 0, 3, 4, 5 ], "bSortable": false, "bSearchable": false }
+            ],
+            "aoColumns": [
+                null,null,null,null,null
+            ],
+            "bPaginate": true,
+            "bLengthChange": true,
+            "sPaginationType"   : "full_numbers",
+            "iDisplayLength": 10,
+            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+        }));
+    });
+    //]]>
+    </script>
+    <script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+      $('#checktog').click(function(event) { 
+	  if(this.checked) { // check select status
+	      $('.variablecheck').each(function() { 
+                this.checked = true; 
+	      });
+	      $('#delsub').removeAttr('disabled');
+	  } else {
+            $('.variablecheck').each(function() {
+                this.checked = false; 
+            });         
+            $('#delsub').attr('disabled','disabled');
+	  }
+      }); 
+    });
+    //]]>
+    </script>
+    <script type="text/javascript">//<![CDATA[
+    $(document).ready(function() {
+     $('.variablecheck').click(function() {
+	  $('#checktog').prop('checked',false);
+	  if(this.checked) {
+	    $('#delsub').removeAttr('disabled');
+	  } else {
+		var checkedcount = 0;
+		$('.variablecheck').each(function() {
+		    if (this.checked) {
+		      checkedcount++;
+		    }
+		});
+		if ( checkedcount > 0 ) {
+		  $('#delsub').removeAttr('disabled');
+		} else {
+		  $('#delsub').attr('disabled','disabled');
+		}
+	  }
+     });
+    });
+    //]]>
+    </script>    
+[% END %]
+<script type="text/javascript">//<![CDATA[
+var MSG_CONFIRM_DELETE_PAGE  = _("Are you sure you want to delete the selected pages?");
+//]]>
+</script>
+</head>
+<body id="plugins_kohacms" class="tools">
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; <a href="/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::L2C2Technologies::KohaCMS&method=tool">Koha CMS Pages</a> &rsaquo; General</div>
+
+<div id="doc3" class="yui-t2">
+    <div id="bd">
+        <div id="yui-main">
+            <div class="yui-b">
+	  <div id="toolbar" class="btn-toolbar">
+	    <a class="btn btn-small" id="newentry" href="/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::L2C2Technologies::KohaCMS&method=tool&op=add_form"><i class="icon-plus"></i> New page</a>
+	  </div>
+        [% IF ( cms_page_count ) %]
+        <form name="del_form" method="get" onsubmit='return confirm(MSG_CONFIRM_DELETE_PAGE)'>
+		<input type="hidden" name="class" value="Koha::Plugin::Com::L2C2Technologies::KohaCMS" />
+		<input type="hidden" name="method" value="tool" />
+ 		<input type="hidden" name="op" value="del_page" />
+		<input type="hidden" name="mode" value="[% mode %]" />
+                <table id="cmspagetable">
+                   <thead> <tr>
+                        <th><input type="checkbox" id="checktog" /></th>
+                        <th>Page ID</th>
+                        <th>Page Description</th>
+                        <th>Page Markup</th>
+                        <th>View page</th>
+                        <th>&nbsp;</th>
+                    </tr></thead>
+                   <tbody>[% FOREACH cms_page IN cms_pages %]
+                         <tr>
+                            <td>
+                                <input type="checkbox" name="variable" value="[% cms_page.variable %]" class="variablecheck"/>
+                            </td>
+                            <td>[% cms_page.variable %]</td>
+                            <td>[% cms_page.explanation %]</td>
+                            <td><textarea rows="3" cols="50" readonly>[% cms_page.value %]</textarea></td>
+                            <td><a href="http://[% OPACBaseURL %]/cgi-bin/koha/pages.pl?p=[% cms_page.page_id %]"  target="_blank">Open in a new OPAC window</a></td>
+                            <td><a href="/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::L2C2Technologies::KohaCMS&amp;method=tool&amp;op=edit_form&amp;id=[% cms_page.variable %]">Edit</a></td>
+                        </tr>
+                    [% END %]</tbody>
+                </table>
+                <fieldset class="action"><input type="submit" id="delsub" class="button" value="Delete selected" disabled="disabled" /></fieldset>
+            </form>
+        [% ELSE %]
+            <p><h3>No Koha CMS page exists. Click 'New Page' button above to add one.</h3></p>
+        [% END %]
+            
+	    </div>
+	</div>
+        <div class="yui-b noprint">
+	  [% INCLUDE 'plugins-menu.inc' %]
+        </div>
+    </div>
+    </div>
+
+[% INCLUDE 'intranet-bottom.inc' %]

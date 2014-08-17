@@ -1,0 +1,74 @@
+[% INCLUDE 'doc-head-open.inc' %]
+<title>Koha &rsaquo; Koha CMS &rsaquo; Pages</title>
+[% INCLUDE 'doc-head-close.inc' %]
+<script language="javascript" type="text/javascript" src="[% interface %]/lib/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript">//<![CDATA[
+var MSG_CONFIRM_DELETE_NEWS  = _("Are you sure you want to delete the selected news?");
+
+tinyMCE.init({
+    mode : "textareas",
+    theme : "advanced",
+    convert_urls : false,
+    relative_urls : false,
+    content_css : "[% themelang %]/css/tinymce.css",
+    plugins : "table,save,advhr,advlink,searchreplace,print,contextmenu,media",
+    theme_advanced_buttons1 : "save,|,bold,italic,underline,|,cut,copy,paste,|,search,replace,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,|,link,unlink,anchor,cleanup,help,code,advhr,|,print",
+    theme_advanced_buttons2 : "tablecontrols,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,removeformat,|,visualaid,|,sub,sup,|,charmap,|,media",
+    theme_advanced_buttons3 : "",
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",
+    theme_advanced_path_location : "bottom",
+    theme_advanced_resizing : true,
+    plugin_insertdate_dateFormat : "%Y-%m-%d",
+    plugin_insertdate_timeFormat : "%H:%M:%S",
+    apply_source_formatting : true,
+    height : "300",
+    width : "700"
+//]]>
+});
+//]]>
+</script>
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; <a href="/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::L2C2Technologies::KohaCMS&method=tool">Koha CMS Pages</a> &rsaquo; [% SWITCH op %][% CASE 'add_form' %] Add new CMS Page [% CASE [ 'edit_form' ] %] Edit CMS Page [% END %]</div>
+<div id="doc3" class="yui-t2">
+    <div id="bd">
+        <div id="yui-main">
+            <div class="yui-b">
+	      <form name="add_form" method="get">
+		<input type="hidden" name="op" value="save_page" />
+		<input type="hidden" name="mode" value="[% mode %]" />
+		<input type="hidden" name="class" value="Koha::Plugin::Com::L2C2Technologies::KohaCMS" />
+		<input type="hidden" name="method" value="tool" />
+		<input type="hidden" name="options" value="[% cms_page_options %]"/>
+		<input type="hidden" name="type" value="[% cms_page_type %]"/>
+		<fieldset class="rows">
+		  <legend>[% SWITCH op %][% CASE 'add_form' %] Add a new Koha CMS page [% CASE [ 'edit_form' ] %] Edit an existing Koha CMS Page [% END %]</legend>
+		  <ol>
+		    <li>
+		      <label for="variable">Page ID: </label>
+		      <input id="variable" size="25" type="text" name="variable" value="[% cms_page_variable %]" readonly/>[% SWITCH op %][% CASE 'add_form' %]&nbsp;<em>auto-generated</em>[% CASE [ 'edit_form' ] %]&nbsp;<em>readonly</em>[% END %]
+		    </li>
+		    <li>
+		      <label for="explanation">Page Description: </label>
+		      <input id="explanation" size="50" type="text" name="explanation" value="[% cms_page_explanation %]" />
+		    </li>
+		    <li>
+		      <label for="value">Page Content: </label>
+		      <textarea name="value" id="value"  cols="80" rows="10">[% cms_page_value %]</textarea></li>
+		    </li>		    
+		  </ol>
+		</fieldset>
+		<fieldset class="action"><input class="button" type="submit" value="Submit" /> <a class="cancel" href="/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::L2C2Technologies::KohaCMS&amp;method=tool">Cancel</a></fieldset>
+	      </form>
+            </div>
+        </div>
+        <div class="yui-b noprint">
+	  [% INCLUDE 'plugins-menu.inc' %]
+        </div>
+    </div>
+</div>
+[% INCLUDE 'intranet-bottom.inc' %]
