@@ -119,9 +119,6 @@ var MSG_CONFIRM_DELETE_PAGE  = _("Are you sure you want to delete the selected p
             
 	    </div>
 	</div>
-        <div class="yui-b noprint">
-	  [% INCLUDE 'plugins-menu.inc' %]
-        </div>
     </div>
     </div>
 

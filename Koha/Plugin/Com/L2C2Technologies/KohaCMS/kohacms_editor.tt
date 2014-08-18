@@ -66,9 +66,6 @@ tinyMCE.init({
 	      </form>
             </div>
         </div>
-        <div class="yui-b noprint">
-	  [% INCLUDE 'plugins-menu.inc' %]
-        </div>
     </div>
 </div>
 [% INCLUDE 'intranet-bottom.inc' %]
