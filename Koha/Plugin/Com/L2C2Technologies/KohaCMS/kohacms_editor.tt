@@ -38,7 +38,7 @@ tinyMCE.init({
     <div id="bd">
         <div id="yui-main">
             <div class="yui-b">
-	      <form name="add_form" method="get">
+	      <form name="add_form" method="post">
 		<input type="hidden" name="op" value="save_page" />
 		<input type="hidden" name="mode" value="[% mode %]" />
 		<input type="hidden" name="class" value="Koha::Plugin::Com::L2C2Technologies::KohaCMS" />
