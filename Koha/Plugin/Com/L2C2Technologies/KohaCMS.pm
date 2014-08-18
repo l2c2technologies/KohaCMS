@@ -41,7 +41,7 @@ use C4::Branch;
 use C4::Members;
 use C4::Auth;
 
-our $VERSION = 1.21;
+our $VERSION = 1.2.1;
 
 our $metadata = {
     name   => 'Koha CMS Editor',
